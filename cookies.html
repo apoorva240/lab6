@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB 6</title>
+    <style>
+        body {
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .btn {
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            border: 1px solid rgb(255, 249, 249);
+        }
+        input[type="button"]{
+           padding: 10px;
+           background-color: #54d0d3;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="colors" align="center">
+        <h2><i>Choose the webpage colour</i></h2><br><br>
+        <span class="btn" style="background-color: red;"></span>
+        <span class="btn" style="background-color: rgb(226, 202, 67);"></span>
+        <span class="btn" style="background-color: greenyellow;"></span>
+        <span class="btn" style="background-color: rgb(39, 39, 171);"></span>
+        <span class="btn" style="background-color: #42d8df;"></span>
+        <span class="btn" style="background-color: #f175ed;"></span>
+        <span class="btn" style="background-color: #fefdff;"></span>
+        <span class="btn" style="background-color: #000000;"></span>
+        <span class="btn" style="background-color: rgba(136, 35, 213, 0.689);"></span>
+    </div>
+    <div align="center" style="margin-top: 50px; margin-left: 300px; margin-right: 200px; margin-bottom: 40px; padding-left: 10px; padding-right: 30px; padding-top: 30px; background-color: rgb(224, 104, 104); height: 250px;">
+        <form>
+            <label for="name"><b>Name</b>&nbsp;&nbsp;:</label>
+            <input type="text" id="name"><br><br>
+            <label for="email"><b>Email</b>&nbsp;:</label>           
+            <input type="email" id="email"><br><br>
+            <label for="course"><b>Department</b></label>
+            <input type="text" id="course"><br><br>
+            <input type="button" value="Set Cookie" onclick="setCookie()">
+            <input type="button" value="Get Cookie" onclick="getCookie()">
+            <input type="button" value="Delete Cookie" onclick="delCookie()">
+        </form>
+    </div>
+    <script>
+        var setCookie = function (n, val) {
+            document.cookie = "name=" + document.getElementById("name").value;
+            document.cookie = "email=" + document.getElementById("email").value;
+            document.cookie = "course=" + document.getElementById("course").value;
+            var exdays = 30;
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = n + "=" + val + "; " + expires;
+        };
+
+        var getCookie = function (n) {
+            if (document.cookie.length != 0)
+            {
+                alert("Name="+document.getElementById("name").value+" Email="+document.getElementById("email").value+" Course="+document.getElementById("course").value);
+            }    
+            else
+            {
+                alert("Cookie not available");
+            }
+            var name = n + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        };
+
+        var delCookie = function (){
+            document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "course=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+
+        document.onclick = function (e) {
+            if (e.target.className == 'btn') {
+                var favColor = e.target.style.backgroundColor;
+                setCookie('color', favColor);
+                document.body.style.backgroundColor = favColor;
+                console.log(favColor);
+            }
+        };
+
+        window.onload = function () {
+            var favColor = document.body.style.backgroundColor;
+            var color = getCookie('color');
+            if (color === '') {
+                document.body.style.backgroundColor = favColor;
+            } else {
+            document.body.style.backgroundColor = color;
+            }
+        };
+    </script>
+</body>
+</html>
